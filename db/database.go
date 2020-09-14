@@ -1,10 +1,8 @@
 package db
 
 import (
-	"context"
 	"database/sql"
 	"os"
-	"time"
 
 	// nolint: unconvert
 	_ "github.com/lib/pq"
@@ -40,4 +38,3 @@ func (p *Handler) Close() error {
 	}
 	return nil
 }
-
