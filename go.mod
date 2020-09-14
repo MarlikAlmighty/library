@@ -1,4 +1,4 @@
-module github.com/MarlikAlmighty/library
+module github.com/MarlikAlmighty/library/v2
 
 go 1.14
 
