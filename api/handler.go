@@ -18,19 +18,3 @@ func (s *Server) Do(ctx context.Context, in *Request) (*Response, error) {
 		Library: &Library{}}, nil
 
 }
-
-/*
-Shelf: []*Shelf{
-				Id:         1,
-				Number:     1,
-				NameShelfs: 1,
-				Book:       []*Book{
-					Page: []*Page{
-						Id:      1,
-						Number:  1,
-						Text:    "123",
-						BooksId: 1,
-					},
-				},
-			},
- */
