@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/MarlikAlmighty/library/v2/api"
+	"google.golang.org/grpc/credentials"
 	"log"
 	"net"
 
@@ -20,7 +21,14 @@ func main() {
 
 	s := api.Server{}
 
-	grpcServer := grpc.NewServer()
+	creds, err := credentials.NewServerTLSFromFile("cert/server.crt", "cert/server.key")
+	if err != nil {
+		log.Fatalf("could not load TLS keys: %s", err)
+	}
+
+	opts := []grpc.ServerOption{grpc.Creds(creds)}
+
+	grpcServer := grpc.NewServer(opts...)
 
 	api.RegisterMessageServer(grpcServer, &s)
 
