@@ -3,8 +3,8 @@ CLIENT_OUT := "bin/client"
 API_OUT := "api/api.pb.go"
 API_REST_OUT := "api/api.pb.gw.go"
 PKG := "github.com/MarlikAlmighty/library/v2"
-SERVER_PKG_BUILD := "${PKG}/server"
-CLIENT_PKG_BUILD := "${PKG}/client"
+SERVER_PKG_BUILD := "${PKG}/cmd/server"
+CLIENT_PKG_BUILD := "${PKG}/cmd/client"
 PKG_LIST := $(shell go list ${PKG}/... | grep -v /vendor/)
 
 .PHONY: all api server client
