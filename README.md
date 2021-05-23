@@ -18,9 +18,9 @@ $ docker-compose -f stack.yml up
 
 $ export POSTGRESQL_URL=postgres://user:password@localhost:5432/usecase?sslmode=disable
 
-$ migrate -database ${POSTGRESQL_URL} -path postgresql/migrations up
+$ migrate -database ${POSTGRESQL_URL} -path internal/repository/postgresql/migrations up
 
-$ go run ./cmd/usecase-server/... --port 3000
+$ go run ./cmd/library-server/... --port 3000
 ```
 
 ### Docker
@@ -30,5 +30,5 @@ $ docker build .
 
 ### Documentation: 
 ```sh
-$ docs serve ./docs/swagger.yml
+$ swagger serve ./docs/swagger.yml
 ```
