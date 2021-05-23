@@ -1,6 +1,6 @@
 # Library
 
-### Sample server code generation via go-swagger. 
+### A simple example of a server API, with a clean architecture.
 
 [![Build Status](https://api.travis-ci.org/MarlikAlmighty/library.svg?branch=master&status=passed)](https://travis-ci.org/MarlikAlmighty/library) &nbsp;
 [![Open Issues](https://img.shields.io/github/issues/google/fresnel)](https://github.com/MarlikAlmighty/library/issues)  &nbsp; 
@@ -11,6 +11,7 @@
 ### How to run
 ```sh
 $ docker stack deploy -c stack.yml postgres 
+$ docker stack ls
 
 OR
 
