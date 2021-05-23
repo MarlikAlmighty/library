@@ -1,4 +1,4 @@
-package library
+package usecase
 
 import (
 	"database/sql"
@@ -10,11 +10,12 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/MarlikAlmighty/library/internal/repository/postgresql"
+
 	"github.com/MarlikAlmighty/library/restapi/operations/book_id"
 	"github.com/MarlikAlmighty/library/restapi/operations/shelves"
 	"github.com/MarlikAlmighty/library/restapi/operations/shelves_id"
 
-	"github.com/MarlikAlmighty/library/db"
 	"github.com/MarlikAlmighty/library/models"
 	"github.com/MarlikAlmighty/library/restapi/operations"
 	"github.com/MarlikAlmighty/library/restapi/operations/book_name"
@@ -25,7 +26,7 @@ import (
 func ConfigureAPI(api *operations.LibraryAPI) {
 
 	// Connection to database
-	d, err := db.InitialDataBase()
+	d, err := postgresql.InitialDataBase()
 	if err != nil {
 		api.Logger("error connect to database")
 		os.Exit(0)
@@ -219,4 +220,3 @@ func ConfigureAPI(api *operations.LibraryAPI) {
 		},
 	)
 }
-

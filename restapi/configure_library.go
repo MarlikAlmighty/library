@@ -4,7 +4,7 @@ package restapi
 
 import (
 	"crypto/tls"
-	"github.com/MarlikAlmighty/library/library"
+	usecase2 "github.com/MarlikAlmighty/library/internal/usecase"
 	"log"
 	"net/http"
 
@@ -20,7 +20,7 @@ import (
 	"github.com/MarlikAlmighty/library/restapi/operations/shelves_id"
 )
 
-//go:generate swagger generate server --target ../../library --name Library --spec ../swagger/swagger.yml
+//go:generate swagger generate server --target ../../usecase --name Library --spec ../swagger/swagger.yml
 
 func configureFlags(api *operations.LibraryAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
@@ -64,7 +64,7 @@ func configureAPI(api *operations.LibraryAPI) http.Handler {
 
 	api.ServerShutdown = func() {}
 
-	library.ConfigureAPI(api)
+	usecase2.ConfigureAPI(api)
 
 	return setupGlobalMiddleware(api.Serve(setupMiddlewares))
 }
@@ -81,13 +81,13 @@ func configureTLS(tlsConfig *tls.Config) {
 func configureServer(s *http.Server, scheme, addr string) {
 }
 
-// The middleware configuration is for the handler executors. These do not apply to the swagger.json document.
+// The middleware configuration is for the handler executors. These do not apply to the docs.json document.
 // The middleware executes after routing but before authentication, binding and validation
 func setupMiddlewares(handler http.Handler) http.Handler {
 	return handler
 }
 
-// The middleware configuration happens before anything, this middleware also applies to serving the swagger.json document.
+// The middleware configuration happens before anything, this middleware also applies to serving the docs.json document.
 // So this is a good place to plug in a panic handling middleware, logging and metrics
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
 	return handler
