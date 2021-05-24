@@ -4,13 +4,11 @@ package restapi
 
 import (
 	"crypto/tls"
-	usecase2 "github.com/MarlikAlmighty/library/internal/usecase"
-	"log"
 	"net/http"
 
-	errors "github.com/go-openapi/errors"
-	runtime "github.com/go-openapi/runtime"
-	middleware "github.com/go-openapi/runtime/middleware"
+	"github.com/go-openapi/errors"
+	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/runtime/middleware"
 
 	"github.com/MarlikAlmighty/library/restapi/operations"
 	"github.com/MarlikAlmighty/library/restapi/operations/book_id"
@@ -20,17 +18,25 @@ import (
 	"github.com/MarlikAlmighty/library/restapi/operations/shelves_id"
 )
 
-//go:generate swagger generate server --target ../../usecase --name Library --spec ../swagger/swagger.yml
+//go:generate swagger generate server --target ../../library --name Library --spec ../docs/swagger.yml --principal interface{}
 
 func configureFlags(api *operations.LibraryAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
 }
 
 func configureAPI(api *operations.LibraryAPI) http.Handler {
-
+	// configure the api here
 	api.ServeError = errors.ServeError
 
-	api.Logger = log.Printf
+	// Set your custom logger if needed. Default one is log.Printf
+	// Expected interface func(string, ...interface{})
+	//
+	// Example:
+	// api.Logger = log.Printf
+
+	api.UseSwaggerUI()
+	// To continue using redoc as your UI, uncomment the following line
+	// api.UseRedoc()
 
 	api.JSONConsumer = runtime.JSONConsumer()
 
@@ -62,9 +68,9 @@ func configureAPI(api *operations.LibraryAPI) http.Handler {
 		})
 	}
 
-	api.ServerShutdown = func() {}
+	api.PreServerShutdown = func() {}
 
-	usecase2.ConfigureAPI(api)
+	api.ServerShutdown = func() {}
 
 	return setupGlobalMiddleware(api.Serve(setupMiddlewares))
 }
@@ -77,18 +83,18 @@ func configureTLS(tlsConfig *tls.Config) {
 // As soon as server is initialized but not run yet, this function will be called.
 // If you need to modify a config, store server instance to stop it individually later, this is the place.
 // This function can be called multiple times, depending on the number of serving schemes.
-// scheme value will be set accordingly: "http", "https" or "unix"
+// scheme value will be set accordingly: "http", "https" or "unix".
 func configureServer(s *http.Server, scheme, addr string) {
 }
 
-// The middleware configuration is for the handler executors. These do not apply to the docs.json document.
-// The middleware executes after routing but before authentication, binding and validation
+// The middleware configuration is for the handler executors. These do not apply to the swagger.json document.
+// The middleware executes after routing but before authentication, binding and validation.
 func setupMiddlewares(handler http.Handler) http.Handler {
 	return handler
 }
 
-// The middleware configuration happens before anything, this middleware also applies to serving the docs.json document.
-// So this is a good place to plug in a panic handling middleware, logging and metrics
+// The middleware configuration happens before anything, this middleware also applies to serving the swagger.json document.
+// So this is a good place to plug in a panic handling middleware, logging and metrics.
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
 	return handler
 }

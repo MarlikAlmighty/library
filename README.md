@@ -2,6 +2,12 @@
 
 ### A simple example of a server API, with a clean architecture.
 
+***
+
+I chose the library as a reference. We can manage books, shelves, cabinets.
+
+***
+
 [![Build Status](https://api.travis-ci.org/MarlikAlmighty/library.svg?branch=master&status=passed)](https://travis-ci.org/MarlikAlmighty/library) &nbsp;
 [![Open Issues](https://img.shields.io/github/issues/google/fresnel)](https://github.com/MarlikAlmighty/library/issues)  &nbsp; 
 [![License](https://img.shields.io/badge/License-MIT%201.0-orange.svg)](https://github.com/MarlikAlmighty/library/blob/master/LICENSE) &nbsp; 
