@@ -1,0 +1,257 @@
+swagger: '2.0'
+info:
+  title: Library API
+  description: Simple Library API Server
+  version: 1.0.0
+  contact:
+    email: cryptocoin62@gmail.com
+host: localhost
+basePath: /
+schemes:
+  - http
+paths:
+  /:
+    get:
+      tags:
+        - home
+      summary: Root of project
+      operationId: home
+      produces:
+        - "text/html"
+      responses:
+        '200':
+          description: OK
+  /bookcases:
+    get:
+      tags:
+        - bookcases
+      summary: Show all bookcases
+      operationId: list_all_bookcases
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: "#/definitions/BookCases"
+        '400':
+          description: Bad request
+          schema:
+            $ref: "#/definitions/Fail"
+    post:
+      tags:
+        - bookcases
+      summary: Add bookcase
+      operationId: add_bookcase
+      consumes:
+        - "application/json; charset=utf-8"
+      produces:
+        - "application/json; charset=utf-8"
+      parameters:
+        - in: body
+          name: add
+          required: true
+          schema:
+            $ref: '#/definitions/BookCase'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request
+          schema:
+            $ref: "#/definitions/Fail"
+    put:
+      tags:
+        - bookcases
+      summary: Update an existing bookcase
+      operationId: put_bookcase
+      consumes:
+        - "application/json; charset=utf-8"
+      produces:
+        - "application/json; charset=utf-8"
+      parameters:
+        - in: body
+          name: update
+          required: true
+          schema:
+            $ref: '#/definitions/BookCase'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request
+          schema:
+            $ref: "#/definitions/Fail"
+  /bookcases/{id}:
+    get:
+      tags:
+        - bookcases
+      summary: List all books in bookcase
+      operationId: list_all_books_from_bookcases
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: "#/definitions/Books"
+        '400':
+          description: Bad request
+          schema:
+            $ref: "#/definitions/Fail"
+    delete:
+      tags:
+        - bookcases
+      summary: Delete bookcase
+      operationId: delete_bookcase
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request
+          schema:
+            $ref: "#/definitions/Fail"
+  /books:
+    get:
+      tags:
+        - books
+      summary: Show all books
+      operationId: list_all_books
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: "#/definitions/Books"
+        '400':
+          description: Bad request
+          schema:
+            $ref: "#/definitions/Fail"
+    post:
+      tags:
+        - books
+      summary: Add book
+      operationId: add_book
+      consumes:
+        - "application/json; charset=utf-8"
+      produces:
+        - "application/json; charset=utf-8"
+      parameters:
+        - in: body
+          name: add
+          required: true
+          schema:
+            $ref: '#/definitions/Book'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request
+          schema:
+            $ref: "#/definitions/Fail"
+    put:
+      tags:
+        - books
+      summary: Update an existing book
+      operationId: put_book
+      consumes:
+        - "application/json; charset=utf-8"
+      produces:
+        - "application/json; charset=utf-8"
+      parameters:
+        - in: body
+          name: update
+          required: true
+          schema:
+            $ref: '#/definitions/Book'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request
+          schema:
+            $ref: "#/definitions/Fail"
+  /book/{id}:
+    get:
+      tags:
+        - books
+      summary: Get book by id
+      operationId: get_book_by_id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: "#/definitions/Book"
+        '400':
+          description:  Bad request
+          schema:
+            $ref: "#/definitions/Fail"
+    delete:
+      tags:
+        - books
+      summary: Delete book
+      operationId: delete_book
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request
+          schema:
+            $ref: "#/definitions/Fail"
+definitions:
+  BookCases:
+    type: array
+    items:
+      $ref: "#/definitions/BookCase"
+  BookCase:
+    type: object
+    properties:
+      BookCaseID:
+        type: integer
+        format: int64
+  Books:
+    type: array
+    items:
+      $ref: "#/definitions/Book"
+  Book:
+    type: object
+    properties:
+      ID:
+        type: integer
+        format: int64
+      Author:
+        type: string
+      Publisher:
+        type: string
+      Name:
+        type: string
+      BookCaseID:
+        type: integer
+        format: int64
+  Fail:
+    type: object
+    properties:
+      Code:
+        type: integer
+        format: int64
+      Message:
+        type: string

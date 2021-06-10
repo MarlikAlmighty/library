@@ -4,10 +4,14 @@ WORKDIR /go/src/library
 
 COPY . .
 
-RUN go build -o /go/src/library/app /go/src/library/cmd/library-server/main.go
+RUN go build -o /go/src/library/app /go/src/library/cmd/main.go
 
 FROM alpine:3.12
 
 COPY --from=builder /go/src/library/app /
 
+ENV LIBRARY_DB="postgres://user:password@localhost:5432/usecase?sslmode=disable"
+ENV LIBRARY_HTTP_PORT="3000"
+
+EXPOSE 3000
 CMD ["/app"]
