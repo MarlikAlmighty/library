@@ -1,4 +1,4 @@
-package usecase
+package _usecase
 
 import (
 	"database/sql"
@@ -10,7 +10,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/MarlikAlmighty/library/internal/repository/postgresql"
+	"github.com/MarlikAlmighty/library/internal/_repository/postgresql"
 
 	"github.com/MarlikAlmighty/library/restapi/operations/book_id"
 	"github.com/MarlikAlmighty/library/restapi/operations/shelves"

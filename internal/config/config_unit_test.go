@@ -9,11 +9,11 @@ func TestLoadEnv(t *testing.T) {
 
 	prefix := "LIBRARY"
 
-	if err := os.Setenv(prefix + "_" + "DB", "TEST"); err != nil {
+	if err := os.Setenv(prefix+"_"+"DB", "TEST"); err != nil {
 		t.Error("setting env DB got failure", err)
 	}
 
-	if err := os.Setenv(prefix + "_" + "HTTP_PORT", "8010"); err != nil {
+	if err := os.Setenv(prefix+"_"+"HTTP_PORT", "8010"); err != nil {
 		t.Error("setting env HTTP_PORT got failure", err)
 	}
 

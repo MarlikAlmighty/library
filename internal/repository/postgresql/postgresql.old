@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/MarlikAlmighty/library/models"
+	"github.com/MarlikAlmighty/library/internal/gen/models"
 
 	// nolint: unconvert
 	_ "github.com/lib/pq"
