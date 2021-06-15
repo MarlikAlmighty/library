@@ -18,6 +18,12 @@ layout:
       file_name: "get_env.go"
       skip_exists: true
 
+    - name: logPackage
+      source: serverLogger
+      target: "./internal/logger/"
+      file_name: "sugar_logger.go"
+      skip_exists: true
+
     - name: main
       source: serverMain
       target: "./cmd/"

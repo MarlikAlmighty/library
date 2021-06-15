@@ -1,45 +1,46 @@
 package postgresql
 
 import (
-	"context"
 	"database/sql"
-	"os"
-	"time"
-
-	"github.com/MarlikAlmighty/library/internal/gen/models"
-
 	// nolint: unconvert
 	_ "github.com/lib/pq"
 )
 
-// Handler for pool connections
-type Handler struct {
+// DB for pool connections
+type DB struct {
 	Conn *sql.DB
 }
 
-// InitialDataBase database connection
-func InitialDataBase() (*Handler, error) {
+// InitDataBase database connection
+func InitDataBase(connect string) (*sql.DB, error) {
 
-	db, err := sql.Open("postgres", os.Getenv("POSTGRESQL_URL"))
-	if err != nil {
-		return &Handler{Conn: nil}, err
+	var (
+		pool DB
+		err  error
+	)
+
+	if pool.Conn, err = sql.Open("postgres", connect); err != nil {
+		return pool.Conn, err
 	}
 
-	db.SetConnMaxLifetime(0)
-	db.SetMaxOpenConns(3)
-	db.SetMaxIdleConns(3)
+	pool.Conn.SetConnMaxLifetime(0)
+	pool.Conn.SetMaxOpenConns(3)
+	pool.Conn.SetMaxIdleConns(3)
 
-	if err := db.Ping(); err != nil {
-		return &Handler{Conn: nil}, err
+	if err := pool.Conn.Ping(); err != nil {
+		return pool.Conn, err
 	}
 
-	return &Handler{Conn: db}, nil
+	return pool.Conn, nil
 }
 
-func (p *Handler) Close() error {
-	if err := p.Conn.Close(); err != nil {
+/*
+func (p *DB) Close() error {
+
+	if err := p.Close(); err != nil {
 		return err
 	}
+
 	return nil
 }
 
@@ -51,7 +52,7 @@ func (p *Handler) GetPageByID(ctx context.Context, id int64) (*models.Page, erro
 
 	m := models.Page{}
 
-	row := p.Conn.QueryRowContext(ctx, `SELECT pages_id, books_id, pages_number, pages_text 
+	row := p.Conn.QueryRowContext(ctx, `SELECT pages_id, books_id, pages_number, pages_text
 	FROM pages WHERE pages_id = $1;`, id)
 
 	err := row.Scan(&m.ID, &m.BooksID, &m.Number, &m.Text)
@@ -70,7 +71,7 @@ func (p *Handler) GetBookByName(ctx context.Context, name string) (*models.Book,
 
 	b := models.Book{}
 
-	row := p.Conn.QueryRowContext(ctx, `SELECT books_id, author, num_pages, publisher, shelfs_id, pages_id 
+	row := p.Conn.QueryRowContext(ctx, `SELECT books_id, author, num_pages, publisher, shelfs_id, pages_id
 	FROM books WHERE author = $1;`, name)
 
 	err := row.Scan(&b.ID, &b.Author, &b.NumPages, &b.Publisher, &b.ShelvesID, &b.Pages)
@@ -177,3 +178,4 @@ func (p *Handler) GetShelves(ctx context.Context) (*models.Library, error) {
 
 	return &l, nil
 }
+*/

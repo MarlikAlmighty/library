@@ -3,9 +3,7 @@ package main
 {{ $name := .Name }}
 {{ $operations := .Operations }}
 import (
-	"fmt"
-	"log"
-
+    "github.com/MarlikAlmighty/{{ dasherize .Name }}/internal/app"
 	"github.com/MarlikAlmighty/{{ dasherize .Name }}/internal/gen/restapi"
 	"github.com/MarlikAlmighty/{{ dasherize .Name }}/internal/gen/restapi/operations"
 	{{range $index, $op := .Operations}}
@@ -21,41 +19,40 @@ import (
     {{end}}
 
 	"github.com/go-openapi/loads"
-
-	"github.com/MarlikAlmighty/{{ dasherize .Name }}/internal/app"
-	"github.com/MarlikAlmighty/{{ dasherize .Name }}/internal/config"
 )
 
 func main() {
 
-    prefix := "{{ upper .Name }}"
-
-	cfg, err := config.LoadEnv(prefix)
+	myApp, err := app.New()
 	if err != nil {
-		log.Fatalln(err)
+		panic(err)
 	}
 
 	swaggerSpec, err := loads.Analyzed({{ .APIPackage }}.SwaggerJSON, "")
 	if err != nil {
-		log.Fatalln(err)
+		myApp.Logger.Fatalw("error loads analyzed:", err)
 	}
 
-    srv := app.New()
 	api := operations.New{{ pascalize .Name }}API(swaggerSpec)
 
 	{{range .Operations}}
-    api.{{ pascalize .Package }}{{ pascalize .Name }}Handler = api{{ pascalize .Package }}.{{ pascalize .Name }}HandlerFunc(srv.{{ pascalize .Name }}Handler)
+    api.{{ pascalize .Package }}{{ pascalize .Name }}Handler = api{{ pascalize .Package }}.{{ pascalize .Name }}HandlerFunc(myApp.{{ pascalize .Name }}Handler)
     {{- end}}
 
-    api.ServerShutdown = srv.OnShutdown
 	server := {{ .APIPackage }}.NewServer(api)
-	defer server.Shutdown()
+
+	defer func() {
+    		myApp.Stop()
+    		if err := server.Shutdown(); err != nil {
+    			myApp.Logger.Infof("error shutdown server: %s", err)
+    		}
+    	}()
 
 	server.ConfigureAPI()
 
-	server.Port = cfg.HTTPPort
+	server.Port = myApp.Conf.HTTPPort
 
     if err := server.Serve(); err != nil {
-        log.Fatalln(err)
+       myApp.Logger.Fatalw("error start server:", err)
     }
 }

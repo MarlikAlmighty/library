@@ -1,28 +1,6 @@
-package _usecase
+package usecase
 
-import (
-	"database/sql"
-	"net/url"
-	"os"
-	"os/signal"
-	"path"
-	"strconv"
-	"syscall"
-	"time"
-
-	"github.com/MarlikAlmighty/library/internal/_repository/postgresql"
-
-	"github.com/MarlikAlmighty/library/restapi/operations/book_id"
-	"github.com/MarlikAlmighty/library/restapi/operations/shelves"
-	"github.com/MarlikAlmighty/library/restapi/operations/shelves_id"
-
-	"github.com/MarlikAlmighty/library/models"
-	"github.com/MarlikAlmighty/library/restapi/operations"
-	"github.com/MarlikAlmighty/library/restapi/operations/book_name"
-	"github.com/MarlikAlmighty/library/restapi/operations/page_id"
-	"github.com/go-openapi/runtime/middleware"
-)
-
+/*
 func ConfigureAPI(api *operations.LibraryAPI) {
 
 	// Connection to database
@@ -220,3 +198,4 @@ func ConfigureAPI(api *operations.LibraryAPI) {
 		},
 	)
 }
+*/
