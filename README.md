@@ -23,6 +23,8 @@ OR
 
 $ docker-compose -f stack.yml up
 
+$ export LIBRARY_HTTP_PORT=3000
+
 $ export LIBRARY_DB=postgres://user:password@localhost:5432/library?sslmode=disable
 
 $ migrate -database ${LIBRARY_DB} -path ./internal/repository/postgresql/migrations up
