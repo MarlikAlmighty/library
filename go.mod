@@ -16,8 +16,8 @@ require (
 	github.com/go-openapi/validate v0.20.2
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/json-iterator/go v1.1.11 // indirect
-	github.com/kelseyhightower/envconfig v1.4.0 // indirect
-	github.com/lib/pq v1.8.0
+	github.com/kelseyhightower/envconfig v1.4.0
+	github.com/lib/pq v1.10.2
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/pkg/errors v0.9.1
@@ -29,7 +29,7 @@ require (
 	go.mongodb.org/mongo-driver v1.5.3 // indirect
 	go.uber.org/atomic v1.8.0 // indirect
 	go.uber.org/multierr v1.7.0 // indirect
-	go.uber.org/zap v1.17.0 // indirect
-	golang.org/x/net v0.0.0-20210610132358-84b48f89b13b
-	golang.org/x/sys v0.0.0-20210608053332-aa57babbf139 // indirect
+	go.uber.org/zap v1.17.0
+	golang.org/x/net v0.0.0-20210614182718-04defd469f4e
+	golang.org/x/sys v0.0.0-20210615035016-665e8c7367d1 // indirect
 )

@@ -10,13 +10,17 @@ type Config struct {
 	HTTPPort int    `required:"true" split_words:"true"`
 }
 
-func LoadEnv(prefix string) (*Config, error) {
+func InitConfig(prefix string) (*Config, error) {
 
 	var cfg Config
 
+	if prefix == "" {
+		return nil, errors.New("the argument must not be an empty string")
+	}
+
 	err := envconfig.Process(prefix, &cfg)
 	if err != nil {
-		return &cfg, errors.Wrap(err, "error reading env: %v\n")
+		return nil, errors.Wrap(err, "error reading env: ")
 	}
 
 	return &cfg, nil

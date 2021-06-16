@@ -10,27 +10,27 @@ import (
 )
 
 type Service struct {
-	Logger *zap.SugaredLogger `logger:"-"`
-	Conf   *config.Config     `config:"-"`
-	Pool   *sql.DB            `pool:"-"`
+	Logger *zap.Logger    `logger:"-"`
+	Conf   *config.Config `config:"-"`
+	Pool   *sql.DB        `pool:"-"`
 }
 
 // New init app
 func New() (*Service, error) {
 
+	// TODO Fix it
 	prefix := "LIBRARY"
-	loggerType := "development" // production
 
 	var (
 		srv Service
 		err error
 	)
 
-	if srv.Logger, err = logger.InitZapLog(loggerType); err != nil {
+	if srv.Logger, err = logger.InitLogger(); err != nil {
 		return &srv, err
 	}
 
-	if srv.Conf, err = config.LoadEnv(prefix); err != nil {
+	if srv.Conf, err = config.InitConfig(prefix); err != nil {
 		return &srv, err
 	}
 
@@ -44,6 +44,6 @@ func New() (*Service, error) {
 func (srv *Service) Stop() {
 
 	if err := srv.Pool.Close(); err != nil {
-		srv.Logger.Infof("error database Close() func: %s", err)
+		srv.Logger.Sugar().Infof("error database Close() func: %s", err)
 	}
 }

@@ -10,7 +10,7 @@ layout:
       source: "asset:serverConfigureapi"
       target: "{{ joinFilePath .Target .ServerPackage }}"
       file_name: "configure_{{ .Name }}.go"
-      skip_exists: false
+      skip_exists: true
 
     - name: cfgPackage
       source: serverConfig
@@ -21,14 +21,14 @@ layout:
     - name: logPackage
       source: serverLogger
       target: "./internal/logger/"
-      file_name: "sugar_logger.go"
+      file_name: "zap_logger.go"
       skip_exists: true
 
     - name: main
       source: serverMain
       target: "./cmd/"
       file_name: "main.go"
-      skip_exists: false
+      skip_exists: true
 
     - name: embedded_spec
       source: asset:swaggerJsonEmbed

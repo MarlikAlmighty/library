@@ -3,9 +3,9 @@ package app
 import (
 	"database/sql"
 
-	"github.com/MarlikAlmighty/library/internal/config"
-	"github.com/MarlikAlmighty/library/internal/logger"
-	"github.com/MarlikAlmighty/library/internal/repository/postgresql"
+	"github.com/MarlikAlmighty/{{ dasherize .Name }}/internal/config"
+	"github.com/MarlikAlmighty/{{ dasherize .Name }}/internal/logger"
+	"github.com/MarlikAlmighty/{{ dasherize .Name }}/internal/repository/postgresql"
 	"go.uber.org/zap"
 )
 
@@ -18,19 +18,19 @@ type Service struct {
 // New init app
 func New() (*Service, error) {
 
+	// TODO Fix it
 	prefix := "LIBRARY"
-	loggerType := "development" // production
 
 	var (
 		srv Service
 		err error
 	)
 
-	if srv.Logger, err = logger.InitZapLog(loggerType); err != nil {
+	if srv.Logger, err = logger.InitLogger(loggerType); err != nil {
 		return &srv, err
 	}
 
-	if srv.Conf, err = config.LoadEnv(prefix); err != nil {
+	if srv.Conf, err = config.InitConfig(prefix); err != nil {
 		return &srv, err
 	}
 
