@@ -377,9 +377,12 @@ func init() {
     "BookCase": {
       "type": "object",
       "properties": {
-        "BookCaseID": {
+        "ID": {
           "type": "integer",
           "format": "int64"
+        },
+        "Name": {
+          "type": "string"
         }
       }
     },
@@ -769,9 +772,12 @@ func init() {
     "BookCase": {
       "type": "object",
       "properties": {
-        "BookCaseID": {
+        "ID": {
           "type": "integer",
           "format": "int64"
+        },
+        "Name": {
+          "type": "string"
         }
       }
     },

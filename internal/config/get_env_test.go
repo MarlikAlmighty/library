@@ -18,22 +18,29 @@ func TestInitConfig(t *testing.T) {
 		t.Error("setting env HTTP_PORT got failure", err)
 	}
 
+	if err := os.Setenv(prefix+"_"+"MIGRATE", "true"); err != nil {
+		t.Error("setting env MIGRATE got failure", err)
+	}
+
+	if err := os.Setenv(prefix+"_"+"PATH_TO_MIGRATE", "./migrations"); err != nil {
+		t.Error("setting env PATH_TO_MIGRATE got failure", err)
+	}
+
 	type args struct {
 		prefix string
 	}
 
 	tests := []struct {
 		name    string
-		args    args
 		want    *Config
 		wantErr bool
 	}{
-		{"test_env", args{prefix}, &Config{"TEST", 8010}, false},
+		{"env", &Config{"TEST", 8010, true, "./migrations"}, false},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := InitConfig(tt.args.prefix)
+			got, err := InitConfig()
 			if (err != nil) != tt.wantErr {
 				t.Errorf("InitConfig() error = %v, wantErr %v", err, tt.wantErr)
 				return

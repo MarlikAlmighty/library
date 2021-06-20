@@ -1,18 +1,18 @@
 layout:
   application:
+    - name: main
+      source: serverMain
+      target: "./cmd/"
+      file_name: "main.go"
+      skip_exists: true
+
     - name: app
       source: serverApp
       target: "./internal/app"
       file_name: "app.go"
       skip_exists: true
 
-    - name: configure
-      source: "asset:serverConfigureapi"
-      target: "{{ joinFilePath .Target .ServerPackage }}"
-      file_name: "configure_{{ .Name }}.go"
-      skip_exists: true
-
-    - name: cfgPackage
+    - name: configPackage
       source: serverConfig
       target: "./internal/config/"
       file_name: "get_env.go"
@@ -24,10 +24,16 @@ layout:
       file_name: "zap_logger.go"
       skip_exists: true
 
-    - name: main
-      source: serverMain
-      target: "./cmd/"
-      file_name: "main.go"
+    - name: dbPackage
+      source: serverPostgresql
+      target: "./internal/repository/postgresql/"
+      file_name: "postgresql.go"
+      skip_exists: true
+
+    - name: configure
+      source: "asset:serverConfigureapi"
+      target: "{{ joinFilePath .Target .ServerPackage }}"
+      file_name: "configure_{{ .Name }}.go"
       skip_exists: true
 
     - name: embedded_spec

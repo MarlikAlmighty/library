@@ -4,6 +4,7 @@ import (
 	"github.com/MarlikAlmighty/library/internal/app"
 	"github.com/MarlikAlmighty/library/internal/gen/restapi"
 	"github.com/MarlikAlmighty/library/internal/gen/restapi/operations"
+	"log"
 
 	apiHome "github.com/MarlikAlmighty/library/internal/gen/restapi/operations/home"
 
@@ -18,7 +19,7 @@ func main() {
 
 	myApp, err := app.New()
 	if err != nil {
-		panic(err)
+		log.Fatalln(err)
 	}
 
 	swaggerSpec, err := loads.Analyzed(restapi.SwaggerJSON, "")

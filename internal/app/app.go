@@ -1,8 +1,6 @@
 package app
 
 import (
-	"database/sql"
-
 	"github.com/MarlikAlmighty/library/internal/config"
 	"github.com/MarlikAlmighty/library/internal/logger"
 	"github.com/MarlikAlmighty/library/internal/repository/postgresql"
@@ -10,16 +8,13 @@ import (
 )
 
 type Service struct {
-	Logger *zap.Logger    `logger:"-"`
-	Conf   *config.Config `config:"-"`
-	Pool   *sql.DB        `pool:"-"`
+	Logger *zap.Logger            `logger:"-"`
+	Conf   *config.Config         `config:"-"`
+	DB     *postgresql.PostGreSQl `db:"-"`
 }
 
 // New init app
 func New() (*Service, error) {
-
-	// TODO Fix it
-	prefix := "LIBRARY"
 
 	var (
 		srv Service
@@ -27,23 +22,20 @@ func New() (*Service, error) {
 	)
 
 	if srv.Logger, err = logger.InitLogger(); err != nil {
-		return &srv, err
+		return nil, err
 	}
 
-	if srv.Conf, err = config.InitConfig(prefix); err != nil {
-		return &srv, err
+	if srv.Conf, err = config.InitConfig(); err != nil {
+		return nil, err
 	}
 
-	if srv.Pool, err = postgresql.InitDataBase(srv.Conf.DB); err != nil {
-		return &srv, err
+	if srv.DB, err = postgresql.Init(srv.Conf); err != nil {
+		return nil, err
 	}
 
 	return &srv, nil
 }
 
 func (srv *Service) Stop() {
-
-	if err := srv.Pool.Close(); err != nil {
-		srv.Logger.Sugar().Infof("error database Close() func: %s", err)
-	}
+	srv.DB.Pool.Close()
 }

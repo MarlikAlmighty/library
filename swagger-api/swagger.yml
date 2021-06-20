@@ -225,9 +225,11 @@ definitions:
   BookCase:
     type: object
     properties:
-      BookCaseID:
+      ID:
         type: integer
         format: int64
+      Name:
+        type: string
   Books:
     type: array
     items:

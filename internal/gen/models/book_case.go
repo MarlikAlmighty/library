@@ -17,8 +17,11 @@ import (
 // swagger:model BookCase
 type BookCase struct {
 
-	// book case ID
-	BookCaseID int64 `json:"BookCaseID,omitempty"`
+	// ID
+	ID int64 `json:"ID,omitempty"`
+
+	// name
+	Name string `json:"Name,omitempty"`
 }
 
 // Validate validates this book case

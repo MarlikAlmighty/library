@@ -3,19 +3,24 @@ package config
 import (
 	"github.com/kelseyhightower/envconfig"
 	"github.com/pkg/errors"
+	"os"
 )
 
 type Config struct {
-	DB       string `required:"true"`
-	HTTPPort int    `required:"true" split_words:"true"`
+	DB            string `required:"true"`
+	HTTPPort      int    `required:"true" split_words:"true"`
+	Migrate       bool   `required:"true"`
+	PathToMigrate string `required:"true" split_words:"true"`
 }
 
-func InitConfig(prefix string) (*Config, error) {
+func InitConfig() (*Config, error) {
 
 	var cfg Config
 
+	prefix := os.Getenv("PREFIX")
+
 	if prefix == "" {
-		return nil, errors.New("the argument must not be an empty string")
+		return nil, errors.New("prefix not set in env")
 	}
 
 	err := envconfig.Process(prefix, &cfg)
