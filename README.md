@@ -39,5 +39,7 @@ $ swagger serve ./swagger-api/swagger.yml
 
 ### How to generate project
 ```sh
-$ swagger generate server --spec ./swagger-api/swagger.yml --target ./internal/gen -C ./swagger-templates/default-server.yml --template-dir ./swagger-templates --name library
+$ swagger generate server --spec ./swagger-api/swagger.yml \ 
+--target ./internal/gen -C ./swagger-templates/default-server.yml \
+--template-dir ./swagger-templates --name library
 ```
