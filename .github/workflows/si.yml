@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  build:
+  test-lint:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -19,7 +19,23 @@ jobs:
         go-version: 1.16
 
     - name: Test
-      run: go test -v ./...
+      run: go test ./...
 
-    - name: Build
-      run: go build -v ./cmd/...
+    - name: Install golint
+      run: go get golang.org/x/lint/golint
+
+    - name: Install golangci-lint
+      run: curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b $(go env GOPATH)/bin v1.41.1
+
+    - name: go vet
+      continue-on-error: true
+      run: go vet ./...
+
+    - name: golangci-lint
+      continue-on-error: true
+      run: golangci-lint run ./...
+
+    - name: golint
+      continue-on-error: true
+      run: golint -set_exit_status $(go list ./...)
+
