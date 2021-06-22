@@ -17,7 +17,7 @@ func InitConfig() (*Config, error) {
 	var cfg Config
 
 	// TODO Fix it
-	prefix := "PREFIX"
+	prefix := "LIBRARY"
 
 	err := envconfig.Process(prefix, &cfg)
 	if err != nil {
