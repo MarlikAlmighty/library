@@ -18,8 +18,8 @@ require (
 	github.com/google/uuid v1.2.0 // indirect
 	github.com/imdario/mergo v0.3.12 // indirect
 	github.com/jackc/pgproto3/v2 v2.1.0 // indirect
-	github.com/jackc/pgx/v4 v4.11.0 // indirect
-	github.com/jackc/tern v1.12.5 // indirect
+	github.com/jackc/pgx/v4 v4.11.0
+	github.com/jackc/tern v1.12.5
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/json-iterator/go v1.1.11 // indirect
 	github.com/kelseyhightower/envconfig v1.4.0
