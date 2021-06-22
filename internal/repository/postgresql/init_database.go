@@ -42,4 +42,3 @@ func Init(cnf *config.Config) (*PostGreSQl, error) {
 
 	return &db, nil
 }
-
