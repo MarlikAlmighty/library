@@ -11,8 +11,8 @@ type PostGreSQl struct {
 	Pool *pgxpool.Pool
 }
 
-// Init database connection
-func Init(cnf *config.Config) (*PostGreSQl, error) {
+// InitDatabase database connection init
+func InitDatabase(cnf *config.Config) (*PostGreSQl, error) {
 
 	ctx := context.Background()
 	var db PostGreSQl

@@ -29,7 +29,7 @@ func New() (*Service, error) {
 		return nil, err
 	}
 
-	if srv.DB, err = postgresql.Init(srv.Conf); err != nil {
+	if srv.DB, err = postgresql.InitDatabase(srv.Conf); err != nil {
 		return nil, err
 	}
 
