@@ -9,7 +9,12 @@ import (
 func Test_newMigrate(t *testing.T) {
 
 	ctx := context.Background()
-	var cnf *config.Config
+	cnf := &config.Config{}
+
+	cnf.Migrate = true
+	cnf.PathToMigrate = "./migrations"
+	cnf.HTTPPort = 3000
+	cnf.DB = "postgres://user:password@localhost:5432/library?sslmode=disable"
 
 	type args struct {
 		ctx context.Context

@@ -26,10 +26,6 @@ func TestInitConfig(t *testing.T) {
 		t.Error("setting env PATH_TO_MIGRATE got failure", err)
 	}
 
-	type args struct {
-		prefix string
-	}
-
 	tests := []struct {
 		name    string
 		want    *Config

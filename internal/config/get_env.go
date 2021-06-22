@@ -3,7 +3,6 @@ package config
 import (
 	"github.com/kelseyhightower/envconfig"
 	"github.com/pkg/errors"
-	"os"
 )
 
 type Config struct {
@@ -17,11 +16,8 @@ func InitConfig() (*Config, error) {
 
 	var cfg Config
 
-	prefix := os.Getenv("PREFIX")
-
-	if prefix == "" {
-		return nil, errors.New("prefix not set in env")
-	}
+	// TODO Fix it
+	prefix := "PREFIX"
 
 	err := envconfig.Process(prefix, &cfg)
 	if err != nil {
