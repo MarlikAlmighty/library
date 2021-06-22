@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  test-lint:
+  test-lint-build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -38,3 +38,6 @@ jobs:
 
     - name: Test
       run: go test ./...
+
+    - name: Build
+      run: go build ./cmd/...
