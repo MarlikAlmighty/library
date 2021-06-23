@@ -1,16 +1,18 @@
 package app
 
 import (
+	"context"
 	"github.com/MarlikAlmighty/library/internal/config"
 	"github.com/MarlikAlmighty/library/internal/logger"
 	"github.com/MarlikAlmighty/library/internal/repository/postgresql"
+	"github.com/jackc/pgx/v4/pgxpool"
 	"go.uber.org/zap"
 )
 
 type Service struct {
-	Logger *zap.Logger            `logger:"-"`
-	Conf   *config.Config         `config:"-"`
-	DB     *postgresql.PostGreSQl `db:"-"`
+	Logger *zap.Logger    `logger:"-"`
+	Conf   *config.Config `conf:"-"`
+	Pool   *pgxpool.Pool  `pool:"-"`
 }
 
 // New init app
@@ -29,7 +31,13 @@ func New() (*Service, error) {
 		return nil, err
 	}
 
-	if srv.DB, err = postgresql.InitDatabase(srv.Conf); err != nil {
+	if srv.Conf.Migrate {
+		if err := postgresql.Migrate(context.Background(), srv.Conf); err != nil {
+			return nil, err
+		}
+	}
+
+	if srv.Pool, err = postgresql.InitDatabase(srv.Conf); err != nil {
 		return nil, err
 	}
 
@@ -37,5 +45,5 @@ func New() (*Service, error) {
 }
 
 func (srv *Service) Stop() {
-	srv.DB.Pool.Close()
+	srv.Pool.Close()
 }

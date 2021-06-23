@@ -12,7 +12,7 @@ func InitLogger() (*zap.Logger, error) {
 
 	logger, err := config.Build()
 	if err != nil {
-		return &zap.Logger{}, err
+		return nil, err
 	}
 
 	return logger, nil

@@ -6,6 +6,7 @@ import (
     "github.com/MarlikAlmighty/{{ dasherize .Name }}/internal/app"
 	"github.com/MarlikAlmighty/{{ dasherize .Name }}/internal/gen/restapi"
 	"github.com/MarlikAlmighty/{{ dasherize .Name }}/internal/gen/restapi/operations"
+	"log"
 	{{range $index, $op := .Operations}}
         {{ $found := false }}
         {{ range $i, $sop := $operations }}
@@ -25,7 +26,7 @@ func main() {
 
 	myApp, err := app.New()
 	if err != nil {
-		panic(err)
+		log.Fatalln(err)
 	}
 
 	swaggerSpec, err := loads.Analyzed({{ .APIPackage }}.SwaggerJSON, "")

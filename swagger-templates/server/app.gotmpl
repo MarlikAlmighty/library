@@ -1,49 +1,49 @@
 package app
 
 import (
-	"database/sql"
-
-	"github.com/MarlikAlmighty/{{ dasherize .Name }}/internal/config"
-	"github.com/MarlikAlmighty/{{ dasherize .Name }}/internal/logger"
-	"github.com/MarlikAlmighty/{{ dasherize .Name }}/internal/repository/postgresql"
+	"context"
+	"github.com/MarlikAlmighty/library/internal/config"
+	"github.com/MarlikAlmighty/library/internal/logger"
+	"github.com/MarlikAlmighty/library/internal/repository/postgresql"
+	"github.com/jackc/pgx/v4/pgxpool"
 	"go.uber.org/zap"
 )
 
 type Service struct {
-	Logger *zap.SugaredLogger `logger:"-"`
-	Conf   *config.Config     `config:"-"`
-	Pool   *sql.DB            `pool:"-"`
+	Logger *zap.Logger    `logger:"-"`
+	Conf   *config.Config `conf:"-"`
+	Pool   *pgxpool.Pool  `pool:"-"`
 }
 
 // New init app
 func New() (*Service, error) {
-
-	// TODO Fix it
-	prefix := "LIBRARY"
 
 	var (
 		srv Service
 		err error
 	)
 
-	if srv.Logger, err = logger.InitLogger(loggerType); err != nil {
-		return &srv, err
+	if srv.Logger, err = logger.InitLogger(); err != nil {
+		return nil, err
 	}
 
-	if srv.Conf, err = config.InitConfig(prefix); err != nil {
-		return &srv, err
+	if srv.Conf, err = config.InitConfig(); err != nil {
+		return nil, err
 	}
 
-	if srv.Pool, err = postgresql.InitDataBase(srv.Conf.DB); err != nil {
-		return &srv, err
+	if srv.Conf.Migrate {
+		if err := postgresql.Migrate(context.Background(), srv.Conf); err != nil {
+			return nil, err
+		}
+	}
+
+	if srv.Pool, err = postgresql.InitDatabase(srv.Conf); err != nil {
+		return nil, err
 	}
 
 	return &srv, nil
 }
 
 func (srv *Service) Stop() {
-
-	if err := srv.Pool.Close(); err != nil {
-		srv.Logger.Infof("error database Close() func: %s", err)
-	}
+	srv.Pool.Close()
 }

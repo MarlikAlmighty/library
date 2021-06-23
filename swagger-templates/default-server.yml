@@ -27,7 +27,13 @@ layout:
     - name: dbPackage
       source: serverPostgresql
       target: "./internal/repository/postgresql/"
-      file_name: "postgresql.go"
+      file_name: "init_database.go"
+      skip_exists: true
+
+    - name: migratePackage
+      source: serverMigrate
+      target: "./internal/repository/postgresql/"
+      file_name: "migrate.go"
       skip_exists: true
 
     - name: configure

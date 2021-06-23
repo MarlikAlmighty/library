@@ -4,8 +4,8 @@
 
 ***
 
-[![Test](https://github.com/MarlikAlmighty/library/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/MarlikAlmighty/library/actions/workflows/test.yml) &nbsp;
-[![Open Issues](https://img.shields.io/github/issues/google/fresnel)](https://github.com/MarlikAlmighty/library/issues)  &nbsp; 
+[![CI](https://github.com/MarlikAlmighty/library/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/MarlikAlmighty/library/actions/workflows/tests.yml) &nbsp;
+[![Release to Docker Hub](https://github.com/MarlikAlmighty/library/actions/workflows/release.yml/badge.svg)](https://github.com/MarlikAlmighty/library/actions/workflows/release.yml) &nbsp;
 [![License](https://img.shields.io/badge/License-MIT%201.0-orange.svg)](https://github.com/MarlikAlmighty/library/blob/master/LICENSE) &nbsp; 
 
 ***
@@ -22,7 +22,7 @@ $ export PREFIX=LIBRARY
 
 $ export LIBRARY_HTTP_PORT=3000
 
-$ export LIBRARY_DB=postgre://user:password@0.0.0.0.0:5432/library?sslmode=disable
+$ export LIBRARY_DB=postgre://user:password@localhost:5432/library?sslmode=disable
 
 $ export LIBRARY_MIGRATE=true
 
