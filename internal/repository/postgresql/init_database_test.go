@@ -2,10 +2,11 @@ package postgresql_test
 
 import (
 	"context"
-	"github.com/MarlikAlmighty/library/internal/repository/postgresql"
-	"github.com/jackc/pgx/v4/pgxpool"
 	"reflect"
 	"testing"
+
+	"github.com/MarlikAlmighty/library/internal/repository/postgresql"
+	"github.com/jackc/pgx/v4/pgxpool"
 
 	"github.com/MarlikAlmighty/library/internal/config"
 )
@@ -57,9 +58,21 @@ func TestInitDatabase(t *testing.T) {
 				t.Errorf("InitDatabase() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !reflect.DeepEqual(got, tt.want) {
+			if !customComparison(got, tt.want) {
 				t.Errorf("InitDatabase() got = %v, want %v", got, tt.want)
 			}
 		})
 	}
+}
+
+func customComparison(got, want interface{}) bool {
+
+	v1 := reflect.ValueOf(got)
+	v2 := reflect.ValueOf(want)
+
+	if v1.Type() != v2.Type() {
+		return false
+	}
+
+	return true
 }
