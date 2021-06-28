@@ -1,18 +1,17 @@
-package postgresql_test
+package main_test
 
 import (
-	"github.com/MarlikAlmighty/library/internal/config"
-	"github.com/ory/dockertest/v3"
-	"github.com/ory/dockertest/v3/docker"
 	"log"
 	"os"
 	"testing"
+
+	"github.com/ory/dockertest/v3"
+	"github.com/ory/dockertest/v3/docker"
 )
 
 var (
-	pool     *dockertest.Pool
-	resource *dockertest.Resource
-	cnf      config.Config
+	Pool     *dockertest.Pool
+	Resource *dockertest.Resource
 )
 
 func TestMain(m *testing.M) {
@@ -20,9 +19,7 @@ func TestMain(m *testing.M) {
 	var err error
 	database := "library"
 
-	cnf.DB = "postgres://postgres:secret@localhost:5432/" + database + "?sslmode=disable"
-
-	if pool, err = dockertest.NewPool(""); err != nil {
+	if Pool, err = dockertest.NewPool(""); err != nil {
 		log.Fatalf("Could not connect to docker: %s", err)
 	}
 
@@ -42,13 +39,13 @@ func TestMain(m *testing.M) {
 		},
 	}
 
-	if resource, err = pool.RunWithOptions(&opts); err != nil {
+	if Resource, err = Pool.RunWithOptions(&opts); err != nil {
 		log.Fatalf("Could not start resource: %s", err)
 	}
 
 	i := m.Run()
 
-	if err := pool.Purge(resource); err != nil {
+	if err := Pool.Purge(Resource); err != nil {
 		log.Fatalf("Could not purge resource: %s", err)
 	}
 
