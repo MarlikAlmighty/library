@@ -4,8 +4,8 @@
 
 ***
 
-[![CI](https://github.com/MarlikAlmighty/library/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/MarlikAlmighty/library/actions/workflows/tests.yml) &nbsp;
-[![Release to Docker Hub](https://github.com/MarlikAlmighty/library/actions/workflows/release.yml/badge.svg)](https://github.com/MarlikAlmighty/library/actions/workflows/release.yml) &nbsp;
+[![CI](https://github.com/MarlikAlmighty/library/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/MarlikAlmighty/library/actions/workflows/ci.yml) &nbsp;
+[![Release to Docker Hub](https://github.com/MarlikAlmighty/library/actions/workflows/cd.yml/badge.svg?branch=master)](https://github.com/MarlikAlmighty/library/actions/workflows/cd.yml) &nbsp;
 [![License](https://img.shields.io/badge/License-MIT%201.0-orange.svg)](https://github.com/MarlikAlmighty/library/blob/master/LICENSE) &nbsp; 
 
 ***
@@ -16,7 +16,7 @@ I chose the library as a reference. We can manage books, bookcases.
 
 ### How to run
 ```sh
-$ docker stack deploy -c postgresql.yml postgre
+$ docker-compose -f postgresql.yml up
 
 $ export PREFIX=LIBRARY
 
