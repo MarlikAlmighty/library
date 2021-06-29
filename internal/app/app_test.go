@@ -1,22 +1,18 @@
-package app_test
+package app
 
 import (
-	"context"
-	"github.com/MarlikAlmighty/library/internal/app"
 	"os"
 	"reflect"
 	"testing"
-
-	"github.com/MarlikAlmighty/library/internal/config"
-	"github.com/MarlikAlmighty/library/internal/logger"
-	"github.com/MarlikAlmighty/library/internal/repository/postgresql"
 )
 
 func TestNew(t *testing.T) {
 
 	prefix := "LIBRARY"
+	database := "library"
 
-	if err := os.Setenv(prefix+"_"+"DB", "LIBRARY"); err != nil {
+	if err := os.Setenv(prefix+"_"+"DB",
+		"postgres://postgres:secret@localhost:5436/"  + database +  "?sslmode=disable"); err != nil {
 		t.Error("setting env DB got failure", err)
 	}
 
@@ -32,28 +28,7 @@ func TestNew(t *testing.T) {
 		t.Error("setting env PATH_TO_MIGRATE got failure", err)
 	}
 
-	var (
-		srv app.Service
-		err error
-	)
-
-	if srv.Logger, err = logger.InitLogger(); err != nil {
-		t.Errorf("init logger fail %v", err)
-	}
-
-	if srv.Conf, err = config.InitConfig(); err != nil {
-		t.Errorf("init config fail %v", err)
-	}
-
-	if srv.Conf.Migrate {
-		if err := postgresql.Migrate(context.Background(), srv.Conf); err != nil {
-			t.Errorf("init migrate fail %v", err)
-		}
-	}
-
-	if srv.Pool, err = postgresql.InitDatabase(srv.Conf); err != nil {
-		t.Errorf("connect to database fail %v", err)
-	}
+	var srv Service
 
 	tests := []struct {
 		name    string

@@ -1,4 +1,4 @@
-package main
+package app
 
 import (
 	"log"
@@ -31,10 +31,10 @@ func TestMain(m *testing.M) {
 			"POSTGRES_PASSWORD=secret",
 			"POSTGRES_DB=" + database,
 		},
-		ExposedPorts: []string{"5432"},
+		ExposedPorts: []string{"5435"},
 		PortBindings: map[docker.Port][]docker.PortBinding{
-			"5432": {
-				{HostIP: "localhost", HostPort: "5431"},
+			"5435": {
+				{HostIP: "localhost", HostPort: "5436"},
 			},
 		},
 	}

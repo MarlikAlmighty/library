@@ -15,7 +15,7 @@ type Service struct {
 	Pool   *pgxpool.Pool  `pool:"-"`
 }
 
-// New init app
+// New app
 func New() (*Service, error) {
 
 	var (
