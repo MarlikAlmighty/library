@@ -24,7 +24,7 @@ func main() {
 
 	swaggerSpec, err := loads.Analyzed(restapi.SwaggerJSON, "")
 	if err != nil {
-		myApp.Logger.Sugar().Fatalw("error loads analyzed:", err)
+		log.Fatalln(err)
 	}
 
 	api := operations.NewLibraryAPI(swaggerSpec)
@@ -46,7 +46,7 @@ func main() {
 	defer func() {
 		myApp.Stop()
 		if err := server.Shutdown(); err != nil {
-			myApp.Logger.Sugar().Infof("error shutdown server: %s", err)
+			log.Fatalln(err)
 		}
 	}()
 
@@ -55,6 +55,6 @@ func main() {
 	server.Port = myApp.Conf.HTTPPort
 
 	if err := server.Serve(); err != nil {
-		myApp.Logger.Sugar().Fatalw("error start server:", err)
+		log.Fatalln(err)
 	}
 }

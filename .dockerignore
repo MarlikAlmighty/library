@@ -1,6 +1,11 @@
 .idea/
-swagger/
+.github/
+pkg/
+swagger-api/
+swagger-templates/
 .gitignore
 .dockerignore
 Dockerfile
+*.go
 *.yml
+*.md

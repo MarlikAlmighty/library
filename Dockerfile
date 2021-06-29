@@ -10,8 +10,11 @@ FROM alpine:3.12
 
 COPY --from=builder /go/src/library/app /
 
+ENV PREFIX="LIBRARY"
+ENV LIBRARY_MIGRATE=true
+ENV LIBRARY_PATH_TO_MIGRATE="./migrations"
 ENV LIBRARY_DB="postgres://user:password@localhost:5432/usecase?sslmode=disable"
-ENV LIBRARY_HTTP_PORT="3000"
+ENV LIBRARY_HTTP_PORT=3000
 
 EXPOSE 3000
 CMD ["/app"]

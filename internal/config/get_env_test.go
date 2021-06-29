@@ -10,7 +10,7 @@ func TestInitConfig(t *testing.T) {
 
 	prefix := "LIBRARY"
 
-	if err := os.Setenv(prefix+"_"+"DB", "TEST"); err != nil {
+	if err := os.Setenv(prefix+"_"+"DB", "LIBRARY"); err != nil {
 		t.Error("setting env DB got failure", err)
 	}
 
@@ -31,7 +31,7 @@ func TestInitConfig(t *testing.T) {
 		want    *Config
 		wantErr bool
 	}{
-		{"env", &Config{"TEST", 8010, true, "./migrations"}, false},
+		{"env", &Config{"LIBRARY", 8010, true, "./migrations"}, false},
 	}
 
 	for _, tt := range tests {
