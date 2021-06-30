@@ -1,12 +1,11 @@
 package postgresql
 
 import (
+	"github.com/ory/dockertest/v3"
+	"github.com/ory/dockertest/v3/docker"
 	"log"
 	"os"
 	"testing"
-
-	"github.com/ory/dockertest/v3"
-	"github.com/ory/dockertest/v3/docker"
 )
 
 var (
@@ -25,16 +24,18 @@ func TestMain(m *testing.M) {
 
 	opts := dockertest.RunOptions{
 		Repository: "postgres",
-		Tag:        "12.3",
+		Tag:        "latest",
 		Env: []string{
 			"POSTGRES_USER=postgres",
 			"POSTGRES_PASSWORD=secret",
 			"POSTGRES_DB=" + database,
+			"listen_addresses = '*'",
 		},
 		ExposedPorts: []string{"5432"},
 		PortBindings: map[docker.Port][]docker.PortBinding{
 			"5432": {
 				{HostIP: "localhost", HostPort: "5433"},
+				{HostIP: "localhost", HostPort: "5434"},
 			},
 		},
 	}
@@ -44,6 +45,8 @@ func TestMain(m *testing.M) {
 	}
 
 	i := m.Run()
+
+//	time.Sleep(200 * time.Second)
 
 	if err := pool.Purge(resource); err != nil {
 		log.Fatalf("Could not purge resource: %s", err)

@@ -16,13 +16,13 @@ I chose the library as a reference. We can manage books, bookcases.
 
 ### How to run
 ```sh
-$ docker-compose -f postgresql.yml up
+$ docker stack deploy postgres -c postgresql.yml
 
 $ export PREFIX=LIBRARY
 
 $ export LIBRARY_HTTP_PORT=3000
 
-$ export LIBRARY_DB=postgre://user:password@localhost:5432/library?sslmode=disable
+$ export LIBRARY_DB=postgres://user:password@localhost:5432/library?sslmode=disable
 
 $ export LIBRARY_MIGRATE=true
 
@@ -33,7 +33,7 @@ $ go run ./cmd/...
 
 ### Docker
 ```sh
-$ docker build .
+$ docker build -t library .
 ```
 
 ### Documentation: 

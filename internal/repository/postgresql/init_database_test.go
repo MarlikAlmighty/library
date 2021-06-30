@@ -11,6 +11,8 @@ import (
 
 func TestInitDatabase(t *testing.T) {
 
+	t.Parallel()
+
 	database := "library"
 
 	var (
@@ -19,7 +21,7 @@ func TestInitDatabase(t *testing.T) {
 		err error
 	)
 
-	cfg.DB = "postgres://postgres:secret@localhost:5433/" + database + "?sslmode=disable"
+	cfg.DB = "postgres://postgres:secret@0.0.0.0:5434/" + database + "?sslmode=disable"
 
 	if err = pool.Retry(func() error {
 		var err error

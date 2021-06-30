@@ -8,11 +8,13 @@ import (
 
 func TestNew(t *testing.T) {
 
+	t.Parallel()
+
 	prefix := "LIBRARY"
 	database := "library"
 
 	if err := os.Setenv(prefix+"_"+"DB",
-		"postgres://postgres:secret@localhost:5436/"  + database +  "?sslmode=disable"); err != nil {
+		"postgres://postgres:secret@0.0.0.0:5433/"  + database +  "?sslmode=disable"); err != nil {
 		t.Error("setting env DB got failure", err)
 	}
 
@@ -24,7 +26,7 @@ func TestNew(t *testing.T) {
 		t.Error("setting env MIGRATE got failure", err)
 	}
 
-	if err := os.Setenv(prefix+"_"+"PATH_TO_MIGRATE", "./migrations"); err != nil {
+	if err := os.Setenv(prefix+"_"+"PATH_TO_MIGRATE", "migrations"); err != nil {
 		t.Error("setting env PATH_TO_MIGRATE got failure", err)
 	}
 

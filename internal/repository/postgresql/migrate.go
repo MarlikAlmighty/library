@@ -6,6 +6,7 @@ import (
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/tern/migrate"
 	"github.com/pkg/errors"
+	"path"
 )
 
 func Migrate(ctx context.Context, cfg *config.Config) error {
@@ -16,7 +17,7 @@ func Migrate(ctx context.Context, cfg *config.Config) error {
 		return errors.New("connect string to db not set in env")
 	}
 
-	if cfg.PathToMigrate == "" {
+	if cfg.Migrate && cfg.PathToMigrate == "" {
 		return errors.New("path to migrate folder not set in env")
 	}
 
@@ -31,7 +32,9 @@ func Migrate(ctx context.Context, cfg *config.Config) error {
 		return errors.Wrap(err, "Unable to create a migrator: ")
 	}
 
-	if err = m.LoadMigrations(cfg.PathToMigrate); err != nil {
+	dir := path.Join("./", cfg.PathToMigrate)
+
+	if err = m.LoadMigrations(dir); err != nil {
 		return errors.Wrap(err, "Unable to load migrations: ")
 	}
 

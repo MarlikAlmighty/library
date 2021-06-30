@@ -2,7 +2,6 @@ package postgresql
 
 import (
 	"context"
-
 	"github.com/MarlikAlmighty/library/internal/config"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/pkg/errors"
