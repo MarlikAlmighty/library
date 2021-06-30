@@ -1,4 +1,4 @@
-package postgresql
+package app
 
 import (
 	"github.com/ory/dockertest/v3"
@@ -34,7 +34,7 @@ func TestMain(m *testing.M) {
 		ExposedPorts: []string{"5432"},
 		PortBindings: map[docker.Port][]docker.PortBinding{
 			"5432": {
-				{HostIP: "localhost", HostPort: "5434"},
+				{HostIP: "localhost", HostPort: "5433"},
 			},
 		},
 	}

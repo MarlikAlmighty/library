@@ -11,8 +11,6 @@ import (
 
 func TestInitDatabase(t *testing.T) {
 
-	t.Parallel()
-
 	database := "library"
 
 	var (

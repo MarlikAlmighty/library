@@ -8,8 +8,6 @@ import (
 
 func TestNew(t *testing.T) {
 
-	t.Parallel()
-
 	prefix := "LIBRARY"
 	database := "library"
 

@@ -10,8 +10,6 @@ import (
 
 func TestMigrate(t *testing.T) {
 
-	t.Parallel()
-
 	database := "library"
 
 	var (
@@ -22,7 +20,7 @@ func TestMigrate(t *testing.T) {
 
 	cfg.Migrate = true
 	cfg.PathToMigrate = "../../../migrations"
-	cfg.DB = "postgres://postgres:secret@0.0.0.0:5433/" + database + "?sslmode=disable"
+	cfg.DB = "postgres://postgres:secret@0.0.0.0:5434/" + database + "?sslmode=disable"
 
 	if err = pool.Retry(func() error {
 		var err error
