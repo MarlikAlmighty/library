@@ -5,6 +5,7 @@ import (
 	"github.com/MarlikAlmighty/library/internal/repository/postgresql"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"go.uber.org/zap"
+	"os"
 	"reflect"
 	"testing"
 )
@@ -29,6 +30,26 @@ func TestNew(t *testing.T) {
 }
 
 func TestService_InitConfig(t *testing.T) {
+
+	prefix := "LIBRARY"
+	database := "library"
+
+	if err := os.Setenv(prefix+"_"+"DB",
+		"postgres://postgres:secret@0.0.0.0:5433/"+database+"?sslmode=disable"); err != nil {
+		t.Error("setting env DB got failure", err)
+	}
+
+	if err := os.Setenv(prefix+"_"+"HTTP_PORT", "8010"); err != nil {
+		t.Error("setting env HTTP_PORT got failure", err)
+	}
+
+	if err := os.Setenv(prefix+"_"+"MIGRATE", "true"); err != nil {
+		t.Error("setting env MIGRATE got failure", err)
+	}
+
+	if err := os.Setenv(prefix+"_"+"PATH_TO_MIGRATE", "migrations"); err != nil {
+		t.Error("setting env PATH_TO_MIGRATE got failure", err)
+	}
 
 	type fields struct {
 		Logger *zap.Logger
