@@ -4,7 +4,7 @@ layout:
       source: serverMain
       target: "./cmd/"
       file_name: "main.go"
-      skip_exists: true
+      skip_exists: false
 
     - name: app
       source: serverApp

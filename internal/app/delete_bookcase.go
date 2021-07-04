@@ -5,6 +5,6 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 )
 
-func (srv *Service) DeleteBookcaseHandler(params apiBookcases.DeleteBookcaseParams) middleware.Responder {
+func (s *Service) DeleteBookcaseHandler(params apiBookcases.DeleteBookcaseParams) middleware.Responder {
 	return middleware.NotImplemented("operation bookcases DeleteBookcase has not yet been implemented")
 }

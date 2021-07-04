@@ -12,26 +12,20 @@ func Migrate(ctx context.Context, cfg *config.Config) error {
 
 	var m *migrate.Migrator
 
-	if cfg.DB == "" {
-		return errors.New("connect string to db not set in env")
-	}
-
-	if cfg.PathToMigrate == "" {
-		return errors.New("path to migrate folder not set in env")
-	}
-
 	conn, err := pgx.Connect(ctx, cfg.DB)
 	if err != nil {
-		return errors.Wrap(err, "Unable to connection to database: ")
+		return errors.New(err.Error())
 	}
 
 	defer conn.Close(ctx)
 
 	if m, err = migrate.NewMigrator(ctx, conn, "schema_version"); err != nil {
-		return errors.Wrap(err, "Unable to create a migrator: ")
+		return errors.New(err.Error())
 	}
 
-	if err = m.LoadMigrations(cfg.PathToMigrate); err != nil {
+	dir := path.Join("./", cfg.PathToMigrate)
+
+	if err = m.LoadMigrations(dir); err != nil {
 		return errors.Wrap(err, "Unable to load migrations: ")
 	}
 

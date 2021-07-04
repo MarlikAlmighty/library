@@ -34,6 +34,7 @@ func TestMain(m *testing.M) {
 		ExposedPorts: []string{"5432"},
 		PortBindings: map[docker.Port][]docker.PortBinding{
 			"5432": {
+				{HostIP: "localhost", HostPort: "5433"},
 				{HostIP: "localhost", HostPort: "5434"},
 			},
 		},

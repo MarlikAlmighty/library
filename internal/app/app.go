@@ -2,49 +2,67 @@ package app
 
 import (
 	"context"
+	"github.com/MarlikAlmighty/library/internal/logger"
+	"github.com/jackc/pgx/v4/pgxpool"
 
 	"github.com/MarlikAlmighty/library/internal/config"
-	"github.com/MarlikAlmighty/library/internal/logger"
 	"github.com/MarlikAlmighty/library/internal/repository/postgresql"
-	"github.com/jackc/pgx/v4/pgxpool"
 	"go.uber.org/zap"
 )
 
 type Service struct {
-	Logger *zap.Logger    `logger:"-"`
-	Conf   *config.Config `conf:"-"`
-	Pool   *pgxpool.Pool  `pool:"-"`
+	Logger *zap.Logger       `logger:"-"`
+	Conf   *config.Config    `conf:"-"`
+	Booker postgresql.Booker `booker:"-"`
+	Pool   *pgxpool.Pool     `pool:"-"`
 }
 
-// New app
-func New() (*Service, error) {
-
-	var (
-		srv Service
-		err error
-	)
-
-	if srv.Logger, err = logger.InitLogger(); err != nil {
-		return nil, err
-	}
-
-	if srv.Conf, err = config.InitConfig(); err != nil {
-		return nil, err
-	}
-
-	if srv.Conf.Migrate {
-		if err := postgresql.Migrate(context.Background(), srv.Conf); err != nil {
-			return nil, err
-		}
-	}
-
-	if srv.Pool, err = postgresql.InitDatabase(srv.Conf); err != nil {
-		return nil, err
-	}
-
-	return &srv, nil
+// New return new app
+func New() *Service {
+	return &Service{}
 }
 
-func (srv *Service) Stop() {
-	srv.Pool.Close()
+// InitConfig init configuration
+func (s *Service) InitConfig() error {
+
+	conf, err := config.InitConfig()
+	if err != nil {
+		return err
+	}
+	s.Conf = conf
+	return nil
+}
+
+func (s *Service) InitLogger() error {
+
+	lg, err := logger.InitLogger()
+	if err != nil {
+		return err
+	}
+	s.Logger = lg
+	return nil
+}
+
+func (s *Service) Migrate() error {
+
+	if err := postgresql.Migrate(context.Background(), s.Conf); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *Service) InitDatabase() error {
+
+	pool, err := postgresql.InitDatabase(s.Conf)
+	if err != nil {
+		return err
+	}
+
+	s.Pool = pool
+	return nil
+}
+
+func (s *Service) Stop() {
+	s.Pool.Close()
 }

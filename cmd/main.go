@@ -17,8 +17,23 @@ import (
 
 func main() {
 
-	myApp, err := app.New()
-	if err != nil {
+	myApp := app.New()
+
+	if err := myApp.InitConfig(); err != nil {
+		log.Fatalln(err)
+	}
+
+	if err := myApp.InitLogger(); err != nil {
+		log.Fatalln(err)
+	}
+
+	if myApp.Conf.Migrate && myApp.Conf.PathToMigrate != "" {
+		if err := myApp.Migrate(); err != nil {
+			log.Fatalln(err)
+		}
+	}
+
+	if err := myApp.InitDatabase(); err != nil {
 		log.Fatalln(err)
 	}
 

@@ -1,55 +1,96 @@
 package app
 
 import (
-	"os"
+	"github.com/MarlikAlmighty/library/internal/config"
+	"github.com/MarlikAlmighty/library/internal/repository/postgresql"
+	"github.com/jackc/pgx/v4/pgxpool"
+	"go.uber.org/zap"
 	"reflect"
 	"testing"
 )
 
 func TestNew(t *testing.T) {
 
-	// TODO Fix it!
-	t.Skip()
+	srv := New()
 
-	prefix := "LIBRARY"
-	database := "library"
+	tests := []struct {
+		name string
+		want *Service
+	}{
+		{"new_app", srv},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := New(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("New() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
 
-	if err := os.Setenv(prefix+"_"+"DB",
-		"postgres://postgres:secret@0.0.0.0:5433/"  + database +  "?sslmode=disable"); err != nil {
-		t.Error("setting env DB got failure", err)
+func TestService_InitConfig(t *testing.T) {
+
+	type fields struct {
+		Logger *zap.Logger
+		Conf   *config.Config
+		Booker postgresql.Booker
+		Pool   *pgxpool.Pool
 	}
 
-	if err := os.Setenv(prefix+"_"+"HTTP_PORT", "8010"); err != nil {
-		t.Error("setting env HTTP_PORT got failure", err)
-	}
-
-	if err := os.Setenv(prefix+"_"+"MIGRATE", "true"); err != nil {
-		t.Error("setting env MIGRATE got failure", err)
-	}
-
-	if err := os.Setenv(prefix+"_"+"PATH_TO_MIGRATE", "migrations"); err != nil {
-		t.Error("setting env PATH_TO_MIGRATE got failure", err)
-	}
-
-	var srv Service
+	var f fields
 
 	tests := []struct {
 		name    string
-		want    *Service
+		fields  fields
 		wantErr bool
 	}{
-		{"app", &srv, false},
+		{"init_config", f, false},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := New()
-			if (err != nil) != tt.wantErr {
-				t.Errorf("New() error = %v, wantErr %v", err, tt.wantErr)
-				return
+			s := &Service{
+				Logger: tt.fields.Logger,
+				Conf:   tt.fields.Conf,
+				Booker: tt.fields.Booker,
+				Pool:   tt.fields.Pool,
 			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("New() got = %v, want %v", got, tt.want)
+			if err := s.InitConfig(); (err != nil) != tt.wantErr {
+				t.Errorf("InitConfig() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestService_InitLogger(t *testing.T) {
+
+	type fields struct {
+		Logger *zap.Logger
+		Conf   *config.Config
+		Booker postgresql.Booker
+		Pool   *pgxpool.Pool
+	}
+
+	var f fields
+
+	tests := []struct {
+		name    string
+		fields  fields
+		wantErr bool
+	}{
+		{"init_logger", f, false},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			s := &Service{
+				Logger: tt.fields.Logger,
+				Conf:   tt.fields.Conf,
+				Booker: tt.fields.Booker,
+				Pool:   tt.fields.Pool,
+			}
+			if err := s.InitLogger(); (err != nil) != tt.wantErr {
+				t.Errorf("InitLogger() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}

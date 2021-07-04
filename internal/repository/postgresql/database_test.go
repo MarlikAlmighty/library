@@ -11,12 +11,14 @@ import (
 
 func TestInitDatabase(t *testing.T) {
 
+	t.Parallel()
+
 	database := "library"
 
 	var (
 		pgxPool *pgxpool.Pool
 		cfg     config.Config
-		err error
+		err     error
 	)
 
 	cfg.DB = "postgres://postgres:secret@0.0.0.0:5434/" + database + "?sslmode=disable"

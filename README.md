@@ -26,7 +26,7 @@ $ export LIBRARY_DB=postgres://user:password@localhost:5432/library?sslmode=disa
 
 $ export LIBRARY_MIGRATE=true
 
-$ export LIBRARY_PATH_TO_MIGRATE="./migrations"
+$ export LIBRARY_PATH_TO_MIGRATE="migrations"
 
 $ go run ./cmd/...
 ```

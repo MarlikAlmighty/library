@@ -5,6 +5,6 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 )
 
-func (srv *Service) AddBookHandler(params apiBooks.AddBookParams) middleware.Responder {
+func (s *Service) AddBookHandler(params apiBooks.AddBookParams) middleware.Responder {
 	return middleware.NotImplemented("operation books AddBook has not yet been implemented")
 }
